@@ -1,5 +1,10 @@
 import React from "react";
+import Notes from "./Notes";
 
 export const Home = () => {
-    return <h1>This is iNoteBook</h1>;
+    return (
+        <div>
+            <Notes />
+        </div>
+    );
 };
