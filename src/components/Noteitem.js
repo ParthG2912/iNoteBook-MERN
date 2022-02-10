@@ -15,7 +15,6 @@ const Noteitem = (props) => {
                         <i
                             className="fas fa-trash-alt mx-2"
                             onClick={() => {
-                                console.log(note);
                                 deleteNote(note._id);
                             }}></i>
                         <i

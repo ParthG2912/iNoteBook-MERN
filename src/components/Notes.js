@@ -5,7 +5,7 @@ import AddNote from "./Addnote";
 
 const Notes = () => {
     const context = useContext(noteContext);
-    const { notes, fetchNotes } = context;
+    const { notes, fetchNotes, editNote } = context;
 
     useEffect(() => {
         fetchNotes();
@@ -13,20 +13,20 @@ const Notes = () => {
     }, []);
 
     const ref = useRef(null);
-    const [note, setNote] = useState({ newtitle: "", newdescription: "", newtag: "" });
+    const refClick = useRef(null);
+    const [note, setNote] = useState({ id: "", newtitle: "", newdescription: "", newtag: "" });
 
     const updateNote = (currentNote) => {
         ref.current.click();
-        console.log(currentNote);
-        setNote({ newtitle: currentNote.title, newdescription: currentNote.description, newtag: currentNote.tag });
+        setNote({ id: currentNote._id, newtitle: currentNote.title, newdescription: currentNote.description, newtag: currentNote.tag });
     };
 
     const handleClick = (e) => {
-        e.preventDefault();
+        editNote(note.id, note.newtitle, note.newdescription, note.newtag);
+        refClick.current.click();
     };
     const handleChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value });
-        console.log(note);
     };
 
     return (
@@ -45,20 +45,12 @@ const Notes = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <form className="my-3">
+                            <form className="my-3 mx-2">
                                 <div className="mb-3">
                                     <label htmlFor="newtitle" className="form-label">
                                         newTitle
                                     </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="newtitle"
-                                        name="newtitle"
-                                        aria-describedby="emailHelp"
-                                        onChange={handleChange}
-                                        value={note.newtitle}
-                                    />
+                                    <input type="text" className="form-control" id="newtitle" name="newtitle" onChange={handleChange} value={note.newtitle} />
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="newdescription" className="form-label">
@@ -77,22 +69,19 @@ const Notes = () => {
                                     <label htmlFor="newtag" className="form-label">
                                         newTag
                                     </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="newtag"
-                                        name="newtag"
-                                        onChange={handleChange}
-                                        value={note.newtag}
-                                    />
+                                    <input type="text" className="form-control" id="newtag" name="newtag" onChange={handleChange} value={note.newtag} />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
+                            <button ref={refClick} type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                                 Close
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={handleClick}>
+                            <button
+                                disabled={note.newtitle.length < 5 || note.newdescription.length < 5 || note.newtag.length < 3}
+                                type="button"
+                                className="btn btn-primary"
+                                onClick={handleClick}>
                                 Update Note
                             </button>
                         </div>
@@ -103,6 +92,7 @@ const Notes = () => {
             <div className="container">
                 <div className="row my-3">
                     <h2>Yours Notes</h2>
+                    <div className="container">{notes.length === 0 && "No notes to display"}</div>
                     {notes.map((note) => {
                         return <Noteitem key={note._id} updateNote={updateNote} note={note} />;
                     })}

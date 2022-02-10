@@ -18,7 +18,6 @@ const NoteState = (props) => {
             },
         });
         const json = await response.json();
-        console.log(json);
 
         setNotes(json);
     };
@@ -37,9 +36,7 @@ const NoteState = (props) => {
             body: JSON.stringify({ title, description, tag }),
         });
         const json = await response.json();
-        console.log(json);
 
-        console.log("Adding a Note");
         setNotes(notes.concat(json));
     };
 
@@ -54,10 +51,9 @@ const NoteState = (props) => {
                     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFlZWFjODcwYmYxMzM2ZWU1N2E1N2Y3In0sImlhdCI6MTY0MzExNzg5NH0.sJk0_BdOZlX_lkaGPHXnR_YlSGbuYb9UGt00n4Ziaho",
             },
         });
+        // eslint-disable-next-line
         const json = await response.json();
-        console.log(json);
 
-        console.log("Deleting a Note with id: " + id);
         const newNotes = notes.filter((note) => {
             return note._id !== id;
         });
@@ -77,17 +73,20 @@ const NoteState = (props) => {
 
             body: JSON.stringify({ title, description, tag }),
         });
+        // eslint-disable-next-line
         const json = await response.json();
-        console.log(json);
 
-        for (let index = 0; index < notes.length; index++) {
-            const element = notes[index];
+        let newNotes = JSON.parse(JSON.stringify(notes));
+        for (let index = 0; index < newNotes.length; index++) {
+            const element = newNotes[index];
             if (element._id === id) {
-                element.title = title;
-                element.description = description;
-                element.tag = tag;
+                newNotes[index].title = title;
+                newNotes[index].description = description;
+                newNotes[index].tag = tag;
+                break;
             }
         }
+        setNotes(newNotes);
     };
 
     return <NoteContext.Provider value={{ notes, fetchNotes, addNote, deleteNote, editNote }}>{props.children}</NoteContext.Provider>;
