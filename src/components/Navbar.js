@@ -33,14 +33,28 @@ export const Navbar = () => {
                             </Link>
                         </li>
                     </ul>
-                    <form className="d-flex">
-                        <Link to="/login" className="btn btn-primary mx-1" role="button">
-                            Login
-                        </Link>
-                        <Link to="/signup" className="btn btn-primary mx-1" role="button">
-                            Signup
-                        </Link>
-                    </form>
+                    {localStorage.getItem("token") ? (
+                        <form className="d-flex">
+                            <Link
+                                to="/login"
+                                className="btn btn-primary mx-1"
+                                onClick={() => {
+                                    localStorage.removeItem("token");
+                                }}
+                                role="button">
+                                Logout
+                            </Link>
+                        </form>
+                    ) : (
+                        <form className="d-flex">
+                            <Link to="/login" className="btn btn-primary mx-1" role="button">
+                                Login
+                            </Link>
+                            <Link to="/signup" className="btn btn-primary mx-1" role="button">
+                                Signup
+                            </Link>
+                        </form>
+                    )}
                 </div>
             </div>
         </nav>

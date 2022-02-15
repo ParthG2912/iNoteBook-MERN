@@ -1,10 +1,11 @@
 import React from "react";
 
+export const capitalize = (word) => {
+    if (word === "danger") word = "error";
+    return word.charAt(0).toUpperCase() + word.slice(1);
+};
+
 function Alert(props) {
-    const capitalize = (word) => {
-        if (word === "danger") word = "error";
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    };
     return (
         <div style={{ height: "50px" }}>
             {props.alert && (
