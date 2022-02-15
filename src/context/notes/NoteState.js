@@ -38,6 +38,7 @@ const NoteState = (props) => {
         const json = await response.json();
 
         setNotes(notes.concat(json));
+        props.showAlert("Note Added Successfully", "success");
     };
 
     //Delete a Note
@@ -58,6 +59,7 @@ const NoteState = (props) => {
             return note._id !== id;
         });
         setNotes(newNotes);
+        props.showAlert("Note Deleted Successfully", "success");
     };
 
     //Edit a Note
@@ -87,6 +89,7 @@ const NoteState = (props) => {
             }
         }
         setNotes(newNotes);
+        props.showAlert("Note Updated Successfully", "success");
     };
 
     return <NoteContext.Provider value={{ notes, fetchNotes, addNote, deleteNote, editNote }}>{props.children}</NoteContext.Provider>;
