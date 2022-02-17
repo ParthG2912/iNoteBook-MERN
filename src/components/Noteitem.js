@@ -21,7 +21,7 @@ const Noteitem = (props) => {
                             }}></i>
                         <i
                             className="far fa-edit mx-2"
-                            style={{ color: "blue", "--fa-primary-color": "black" }}
+                            style={{ color: "blue" }}
                             onClick={() => {
                                 updateNote(note);
                             }}></i>

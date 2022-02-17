@@ -1,8 +1,10 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+// import UserDetail from "./UserDetail";
 
 export const Navbar = () => {
     let location = useLocation();
+    const navigate = useNavigate();
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -35,24 +37,34 @@ export const Navbar = () => {
                     </ul>
                     {localStorage.getItem("token") ? (
                         <form className="d-flex">
+                            {location.pathname !== "/userDetail" && (
+                                <Link to="/userDetail" className="btn btn-primary mx-1 d-flex align-item-center">
+                                    <i className="m-auto fa-solid fa-user"></i>
+                                    <p className="my-auto ms-2">Account</p>
+                                </Link>
+                            )}
                             <Link
                                 to="/login"
-                                className="btn btn-primary mx-1"
+                                className="btn btn-primary mx-1 d-flex align-item-center"
                                 onClick={() => {
                                     localStorage.removeItem("token");
-                                }}
-                                role="button">
-                                Logout
+                                }}>
+                                <i className="m-auto fa-solid fa-right-from-bracket"></i>
+                                <p className="my-auto ms-2">Logout</p>
                             </Link>
                         </form>
                     ) : (
                         <form className="d-flex">
-                            <Link to="/login" className="btn btn-primary mx-1" role="button">
-                                Login
-                            </Link>
-                            <Link to="/signup" className="btn btn-primary mx-1" role="button">
-                                Signup
-                            </Link>
+                            {location.pathname !== "/login" && (
+                                <Link to="/login" className="btn btn-primary mx-1" role="button">
+                                    Login
+                                </Link>
+                            )}
+                            {location.pathname !== "/signup" && (
+                                <Link to="/signup" className="btn btn-primary mx-1" role="button">
+                                    Signup
+                                </Link>
+                            )}
                         </form>
                     )}
                 </div>
